@@ -4,9 +4,10 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 type CategoryProps = {
   title: string;
   color: string;
+  onPress: () => void;
 };
 
-const Category: FC<CategoryProps> = ({ title, color }) => {
+const Category: FC<CategoryProps> = ({ title, color, onPress }) => {
   return (
     <View style={styles.gridItem}>
       <Pressable
@@ -14,6 +15,7 @@ const Category: FC<CategoryProps> = ({ title, color }) => {
           styles.button,
           pressed ? styles.buttonPressed : null,
         ]}
+        onPress={onPress}
       >
         <View style={[styles.innerContainer, { backgroundColor: color }]}>
           <Text style={styles.title}>{title}</Text>
