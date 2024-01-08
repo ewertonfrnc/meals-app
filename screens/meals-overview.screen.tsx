@@ -22,7 +22,16 @@ const MealsOverview: FC<MealsOverviewProps> = ({ navigation, route }) => {
   );
 
   const renderMealItem = (mealItem: MealsType.default) => {
-    return <Meal {...mealItem} />;
+    const mealItemProps = {
+      id: mealItem.id,
+      title: mealItem.title,
+      imageUrl: mealItem.imageUrl,
+      affordability: mealItem.affordability,
+      duration: mealItem.duration,
+      complexity: mealItem.complexity,
+    };
+
+    return <Meal {...mealItemProps} />;
   };
 
   return (
@@ -44,6 +53,6 @@ const styles = StyleSheet.create({
     padding: 16,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#f3f3f3'
+    backgroundColor: '#f3f3f3',
   },
 });

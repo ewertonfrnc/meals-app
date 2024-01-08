@@ -1,29 +1,51 @@
 import React, { FC } from 'react';
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useNavigation } from '@react-navigation/native';
+import { RootStackParamList } from '../interfaces/navigation.interface';
+import MealDetails from './meal-details.component';
+
 type MealProps = {
-  [key: string]: string;
+  id: string;
+  title: string;
+  imageUrl: string;
+  duration: number;
+  complexity: string;
+  affordability: string;
 };
 
-const Meal: FC<MealProps> = ({ ...mealProps }) => {
+const Meal: FC<MealProps> = ({
+  id,
+  title,
+  imageUrl,
+  duration,
+  complexity,
+  affordability,
+}) => {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
+  const handleMealPress = () =>
+    navigation.navigate('MealDetail', { mealId: id });
+
   return (
     <View style={styles.mealItem}>
-      <Pressable style={({ pressed }) => pressed && styles.buttonPressed}>
+      <Pressable
+        style={({ pressed }) => pressed && styles.buttonPressed}
+        onPress={handleMealPress}
+      >
         <View style={styles.innerContainer}>
           <View>
-            <Image source={{ uri: mealProps.imageUrl }} style={styles.image} />
-            <Text style={styles.title}>{mealProps.title}</Text>
+            <Image source={{ uri: imageUrl }} style={styles.image} />
+            <Text style={styles.title}>{title}</Text>
           </View>
 
-          <View style={styles.details}>
-            <Text style={styles.detailItem}>{mealProps.duration}m</Text>
-            <Text style={styles.detailItem}>
-              {mealProps.complexity.toUpperCase()}
-            </Text>
-            <Text style={styles.detailItem}>
-              {mealProps.affordability.toUpperCase()}
-            </Text>
-          </View>
+          <MealDetails
+            duration={duration}
+            complexity={complexity}
+            affordability={affordability}
+          />
         </View>
       </Pressable>
     </View>
@@ -61,15 +83,5 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 18,
     margin: 8,
-  },
-  details: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 8,
-  },
-  detailItem: {
-    marginHorizontal: 4,
-    fontSize: 12,
   },
 });
